@@ -1,8 +1,8 @@
 import boto3
 import json
 
-source_bucket = ''
-destination_bucket = ''
+source_bucket = 'e-commerce122'
+destination_bucket = 'e-commerce-archive11'
 
 
 def lambda_handler(event, context):
