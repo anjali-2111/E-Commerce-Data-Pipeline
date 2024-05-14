@@ -139,8 +139,6 @@ def lambda_handler(event,context):
     # s3_key = s3_prefix + filename2
     # s3_client.put_object(Body=open(prod_filepath, 'rb'), Bucket=bucket, Key=s3_key)
 
-
-
     return {
         'statuscode':200,
         'body':json.dumps('Data generated and saved to s3')

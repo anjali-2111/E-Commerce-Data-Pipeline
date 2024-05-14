@@ -42,9 +42,9 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 500,
                 'body': json.dupms(f'Error transferring files: {e} ')
-            }
-            
-            
+            }        
+
+
     else:
         return {
             
@@ -62,3 +62,5 @@ def moves_files(s3,source_bucket,destination_bucket):
     s3.copy_object(CopySource = {'Bucket': source_bucket, 'Key': source_key}, Bucket = destination_bucket, Key = destination_key)
     
     print(f"Moved {source_key} to {destination_bucket}/{destination_key} ")
+
+    

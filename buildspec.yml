@@ -23,7 +23,6 @@ phases:
       - zip -r9 deployment_package_e-commerce-archive-lambda.zip *.py
       - cd ..
 
-
   post_build:
     commands:
       - echo "Uploading to S3..."
