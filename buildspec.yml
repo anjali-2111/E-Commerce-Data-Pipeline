@@ -1,0 +1,43 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - echo "Installing dependencies..."
+  build:
+    commands:
+      - echo "Zipping deployment package... for e-commerce-mock-gen"
+      - cd e-commerce-mock-gen
+      - zip -r9 deployment_package_e-commerce-mock-gen.zip *.py
+      - cd ..
+
+
+      - echo "Zipping deployment package... for e-commerce-glue-job-trigger"
+      - cd e-commerce-glue-job-trigger
+      - zip -r9 deployment_package_e-commerce-glue-job-trigger.zip *.py
+      - cd ..
+
+      - echo "Zipping deployment package... for e-commerce-archive-lambda"
+      - cd e-commerce-archive-lambda
+      - zip -r9 deployment_package_e-commerce-archive-lambda.zip *.py
+      - cd ..
+
+
+  post_build:
+    commands:
+      - echo "Uploading to S3..."
+      - cd e-commerce-mock-gen
+      - aws s3 cp deployment_package_e-commerce-mock-gen.zip s3://lambda-builds-zip23/
+      - cd ../e-commerce-glue-job-trigger
+      - aws s3 cp deployment_package_e-commerce-glue-job-trigger.zip s3://lambda-builds-zip23/
+      - cd ../e-commerce-archive-lambda
+      - aws s3 cp deployment_package_e-commerce-archive-lambda.zip s3://lambda-builds-zip23/
+      - cd ..
+
+      - echo "Updating Lambda function via S3..."
+      - aws lambda update-function-code --function-name e-commerce-mock-gen --s3-bucket lambda-builds-zip23 --s3-key deployment_package_e-commerce-mock-gen.zip
+      - aws lambda update-function-code --function-name e-commerce-glue-job-trigger --s3-bucket lambda-builds-zip23 --s3-key deployment_package_e-commerce-glue-job-trigger.zip
+      - aws lambda update-function-code --function-name e-commerce-archive-lambda --s3-bucket lambda-builds-zip23 --s3-key deployment_package_e-commerce-archive-lambda.zip
+      - echo "Deployment complete!"
+     
