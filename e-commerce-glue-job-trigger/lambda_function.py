@@ -17,7 +17,7 @@ def lambda_handler(event, context):
         # Process the file
         print(f"Processing file: {object_key}")
         if event['Records'][0]['eventName'].startswith('ObjectCreated'):
-            job_name = 'e-commerce-ingestion'
+            job_name = 'e-commerce-test-new'
             response = glue_client.start_job_run(JobName=job_name, Arguments={'https://e-commerce122.s3.amazonaws.com/': f's3://{bucket_name}/{object_key}'})
             print(f'Started glue job run:{response["JobRunId"]}')
             
